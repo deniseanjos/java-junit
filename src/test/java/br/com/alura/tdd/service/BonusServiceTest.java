@@ -1,20 +1,30 @@
 package br.com.alura.tdd.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.com.alura.tdd.modelo.Funcionario;
 
 class BonusServiceTest {
 	
+	private BonusService service;
+	
+	@BeforeEach
+	private void inicializar() {
+		this.service = new BonusService();
+	}
+
 	@Test
 	void testCalcularBonus_retornoDeveriaSerException() {
-		BonusService service = new BonusService();
 		var exception = assertThrows(IllegalArgumentException.class, 
 				() -> service.calcularBonus(new Funcionario("Teste", LocalDate.now(), new BigDecimal("25000"))));
 		assertTrue(exception.getMessage().contains("Funcionario nao elegivel ao bonus."));
@@ -29,14 +39,12 @@ class BonusServiceTest {
 	
 	@Test
 	void testCalcularBonus_retornoDeveriaSerDezPorCentoDoSalario() {
-		BonusService service = new BonusService();
 		var bonus = service.calcularBonus(new Funcionario("Teste", LocalDate.now(), new BigDecimal("2500")));
 		assertEquals(new BigDecimal("250").setScale(2, RoundingMode.HALF_UP), bonus);
 	}
 	
 	@Test
 	void testCalcularBonus_retornoDeveriaSerDezPorCentoDoSalarioExato() {
-		BonusService service = new BonusService();
 		var bonus = service.calcularBonus(new Funcionario("Teste", LocalDate.now(), new BigDecimal("10000")));
 		assertEquals(new BigDecimal("1000").setScale(2, RoundingMode.HALF_UP), bonus);
 	}
