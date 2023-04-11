@@ -13,10 +13,18 @@ import br.com.alura.tdd.modelo.Funcionario;
 class BonusServiceTest {
 	
 	@Test
-	void testCalcularBonus_retornoDeveriaSerZeroParaFuncionarioComSalarioMuitoAlto() {
+	void testCalcularBonus_retornoDeveriaSerException() {
 		BonusService service = new BonusService();
-		var bonus = service.calcularBonus(new Funcionario("Teste", LocalDate.now(), new BigDecimal("25000")));
-		assertEquals(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP), bonus);
+		var exception = assertThrows(IllegalArgumentException.class, 
+				() -> service.calcularBonus(new Funcionario("Teste", LocalDate.now(), new BigDecimal("25000"))));
+		assertTrue(exception.getMessage().contains("Funcionario nao elegivel ao bonus."));
+		
+		// Atraves de try catch
+		try {
+			service.calcularBonus(new Funcionario("Teste", LocalDate.now(), new BigDecimal("25000")));
+			fail("Incorreto: Nao lancou exception.");
+		} catch (Exception e) {
+		}
 	}
 	
 	@Test
@@ -32,6 +40,5 @@ class BonusServiceTest {
 		var bonus = service.calcularBonus(new Funcionario("Teste", LocalDate.now(), new BigDecimal("10000")));
 		assertEquals(new BigDecimal("1000").setScale(2, RoundingMode.HALF_UP), bonus);
 	}
-
 
 }
