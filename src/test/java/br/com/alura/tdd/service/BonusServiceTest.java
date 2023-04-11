@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -40,13 +39,13 @@ class BonusServiceTest {
 	@Test
 	void testCalcularBonus_retornoDeveriaSerDezPorCentoDoSalario() {
 		var bonus = service.calcularBonus(new Funcionario("Teste", LocalDate.now(), new BigDecimal("2500")));
-		assertEquals(new BigDecimal("250").setScale(2, RoundingMode.HALF_UP), bonus);
+		assertEquals(new BigDecimal("250.00"), bonus);
 	}
 	
 	@Test
 	void testCalcularBonus_retornoDeveriaSerDezPorCentoDoSalarioExato() {
 		var bonus = service.calcularBonus(new Funcionario("Teste", LocalDate.now(), new BigDecimal("10000")));
-		assertEquals(new BigDecimal("1000").setScale(2, RoundingMode.HALF_UP), bonus);
+		assertEquals(new BigDecimal("1000.00"), bonus);
 	}
 
 }

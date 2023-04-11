@@ -35,7 +35,7 @@ class ReajusteServiceTest {
 		
 		service.calcularReajuste(funcionario, DesempenhoeEnum.A_DESEJAR);
 		
-		assertEquals(new BigDecimal("1030").setScale(2, RoundingMode.HALF_UP), funcionario.getSalario());
+		assertEquals(new BigDecimal("1030.00"), funcionario.getSalario());
 	}
 	
 	@Test
